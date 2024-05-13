@@ -32,7 +32,7 @@ egypt_governorates = [
     ("Kafr El Sheikh", "Kafr El Sheikh"),
     ("Damietta", "Damietta")
     ]
-# Create your models here.
+
 class order(models.Model):
     shipper = models.ForeignKey (user ,null = False , on_delete = models.CASCADE)
     name  = models.CharField(max_length = 100 , null = False , blank = False)
@@ -42,8 +42,10 @@ class order(models.Model):
     shipment_content = models.CharField(max_length = 100 , null = False , blank = False)
     shipment_weight = models.SmallIntegerField(null = False , blank = False , default= 1 )
     cod = models.IntegerField(null = False , blank = False , default = 0)
-    fees = models.IntegerField(null = False , blank = False , default = 0 , editable= False)
-    date = models.DateTimeField(default=datetime.now, blank=True , editable= False)
+    shipping_price = models.IntegerField(null = False , blank = False , default = 0 , editable= False)
+    # fees = models.IntegerField(null = False , blank = False , default = 0 , editable= False)
+    date = models.DateTimeField(default=datetime.today, blank=True , editable= False)
+    net_income = models.IntegerField(null = False , blank = False  , default=0 , editable= False)
     
     
     
@@ -77,31 +79,8 @@ class order(models.Model):
         "South Sinai": 100,
         "Kafr El Sheikh": 60,
         "Damietta": 60
-}
+        }
         if self.government in shippingPriceList:
             self.shipping_price = shippingPriceList[self.government]
         super().save(*args, **kwargs)
 
-    def calculate_cod(self):
-        return self.cod-self.shipping_price
-    
-    
-    
-
-
-
-
-"""
-id 
-shipper name 
-shipper id
-
-name
-phone 
-address
-shippment content 
-shippment weight
-cod
-status 
-fees 
-"""
