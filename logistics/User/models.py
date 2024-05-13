@@ -15,3 +15,9 @@ class user (models.Model):
     # transferAccount= models.CharField()
     def __str__(self):
         return str(self.user)
+    
+class PickupRequest(models.Model):
+    user = models.ForeignKey(user, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+    number_of_orders = models.IntegerField(null=True , blank=True)
+    status = models.BooleanField(default=False)
