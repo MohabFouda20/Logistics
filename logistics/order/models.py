@@ -1,5 +1,5 @@
 from django.db import models
-from User.models import user
+from User.models import AppUser 
 from datetime import datetime
 
 
@@ -32,21 +32,30 @@ egypt_governorates = [
     ("Kafr El Sheikh", "Kafr El Sheikh"),
     ("Damietta", "Damietta")
     ]
-
 class order(models.Model):
-    shipper = models.ForeignKey (user ,null = False , on_delete = models.CASCADE)
+    shipper = models.ForeignKey (AppUser ,null = False , on_delete = models.CASCADE)
     name  = models.CharField(max_length = 100 , null = False , blank = False)
     phone = models.CharField(max_length = 50 , null = False , blank = False)
     government = models.CharField(max_length=100, choices=egypt_governorates , null = False , blank = False)
     address = models.CharField(max_length = 300 , null=False , blank= False)
     shipment_content = models.CharField(max_length = 100 , null = False , blank = False)
     shipment_weight = models.SmallIntegerField(null = False , blank = False , default= 1 )
-    cod = models.IntegerField(null = False , blank = False , default = 0)
+    cash_on_delivery = models.IntegerField(null = False , blank = False , default = 0)
     shipping_price = models.IntegerField(null = False , blank = False , default = 0 , editable= False)
-    # fees = models.IntegerField(null = False , blank = False , default = 0 , editable= False)
-    date = models.DateTimeField(default=datetime.today, blank=True , editable= False)
     net_income = models.IntegerField(null = False , blank = False  , default=0 , editable= False)
-    
+    order_status = models.CharField(
+        max_length= 100 ,
+        choices=[
+        ('pending','pending'),
+        ('ready for pickup','ready for pickup'),
+        ('delivered','delivered'),
+        ('canceled','canceled')
+        ],
+        default='ready for pickup',
+        editable= False
+        )
+    created_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
     
     
@@ -82,5 +91,7 @@ class order(models.Model):
         }
         if self.government in shippingPriceList:
             self.shipping_price = shippingPriceList[self.government]
+        self.net_income = self.cash_on_delivery - self.shipping_price  # try to calculate the net income in the model
         super().save(*args, **kwargs)
+        
 

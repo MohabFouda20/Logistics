@@ -8,8 +8,8 @@ urlpatterns = [
     path('Delete/<int:pk>/' ,views.Userdelete.as_view()),
     
     # pickup request urls
-    path('pickup/' ,views.PickupListCreate.as_view()),
-    path('pickup/edit/<int:pk>/' ,views.pickupEdit.as_view()),
-    path('pickup/delete/<int:pk>/' ,views.pickupDelete.as_view()),
+    # path('pickup/' ,views.PickupListCreate.as_view()),
+    # path('pickup/edit/<int:pk>/' ,views.pickupEdit.as_view()),
+    # path('pickup/delete/<int:pk>/' ,views.pickupDelete.as_view()),
     
 ]

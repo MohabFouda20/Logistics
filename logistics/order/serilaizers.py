@@ -3,7 +3,6 @@ from .models import order
 
 
 class orderSerializer(serializers.ModelSerializer):
-    NetIncome  = serializers.SerializerMethodField()
     class Meta:
         model = order
         fields = [
@@ -14,11 +13,17 @@ class orderSerializer(serializers.ModelSerializer):
             'government',
             'address',
             'shipment_content',
-            'cod', 
+            'cash_on_delivery', 
             'shipping_price',
-            'NetIncome',
+            'net_income',
+            'order_status',
         ]
-
-    def get_NetIncome(self, order):
-        net_income = order.cod - order.shipping_price
-        return net_income
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        rep['shipper'] = {
+            "id":instance.shipper.user.id,
+            "username":instance.shipper.user.username,
+            "email":instance.shipper.user.email,
+            "phone":instance.shipper.phone,
+            }
+        return rep

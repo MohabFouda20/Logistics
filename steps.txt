@@ -1,7 +1,7 @@
 extends user model (make a load on database)
 make a functions for the user(create order , create pickup requests , analysis data , make collection ) 
-    1 - create user model 
-    2 - create order model 
+    1 - create user model  (Done)
+    2 - create order model (Done)
     3 - user authintication and permission (need more searching)
     4 - create the other functions (pickup requests , collection request)
     5 - create the front end for the admin site and the user site 

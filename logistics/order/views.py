@@ -6,7 +6,6 @@ from .serilaizers import orderSerializer
 class orderListCreate(generics.ListCreateAPIView):
     queryset = order.objects.all()
     serializer_class = orderSerializer
-    
     def perform_create(self, serializer):
         serializer.save()
         
